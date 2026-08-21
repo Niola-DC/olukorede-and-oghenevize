@@ -220,7 +220,7 @@ export default function Program() {
     const stage = stageRef.current;
     const canvas = canvasRef.current;
     if (!stage || !canvas) return;
-    const ctx = canvas.getContext("2d");
+    const ctx = canvas.getContext("2d") as CanvasRenderingContext2D;
     if (!ctx) return;
 
     // ---------------- geometry (computed once; page doesn't resize the event list) ----------------
