@@ -16,14 +16,36 @@ const LETTER_PARAGRAPHS = [
 // runtime randomness — this renders on the server, so anything seeded from
 // Math.random() would mismatch on hydration) for a torn-parchment look: the
 // front sheet is the readable card, the back sheet is a second scrap peeking
-// out from behind it, like the letter was torn from a larger page.
+// out from behind it, like the letter was torn from a larger page. The top
+// edge is left flat on both — that's where the rolled cap attaches.
 const FRONT_TORN_CLIP =
-  "polygon(0% 2.51%,8.33% 0.06%,16.67% 0.69%,25.00% 3.34%,33.33% 1.65%,41.67% 3.49%,50.00% 0.20%,58.33% 0.52%,66.67% 0.06%,75.00% 0.13%,83.33% 1.86%,91.67% 0.82%,100% 3.11%,99.01% 8.33%,99.26% 16.67%,98.96% 25.00%,99.63% 33.33%,97.61% 41.67%,99.96% 50.00%,98.29% 58.33%,99.33% 66.67%,96.55% 75.00%,99.90% 83.33%,99.80% 91.67%,99.29% 100%,91.67% 99.54%,83.33% 97.41%,75.00% 98.12%,66.67% 98.97%,58.33% 99.98%,50.00% 98.98%,41.67% 100.00%,33.33% 98.41%,25.00% 99.64%,16.67% 99.43%,8.33% 99.57%,0% 97.15%,0.81% 91.67%,0.55% 83.33%,2.03% 75.00%,2.14% 66.67%,3.56% 58.33%,0.52% 50.00%,3.55% 41.67%,3.76% 33.33%,3.02% 25.00%,0.64% 16.67%,2.09% 8.33%)";
+  "polygon(0% 0.00%,7.14% 0.00%,14.29% 0.00%,21.43% 0.00%,28.57% 0.00%,35.71% 0.00%,42.86% 0.00%,50.00% 0.00%,57.14% 0.00%,64.29% 0.00%,71.43% 0.00%,78.57% 0.00%,85.71% 0.00%,92.86% 0.00%,100% 0.00%,97.97% 7.14%,98.48% 14.29%,93.87% 21.43%,99.24% 28.57%,95.72% 35.71%,99.93% 42.86%,96.64% 50.00%,98.63% 57.14%,94.27% 64.29%,99.79% 71.43%,99.60% 78.57%,96.16% 85.71%,98.97% 92.86%,98.84% 100%,92.86% 99.06%,85.71% 95.44%,78.57% 96.41%,71.43% 97.90%,64.29% 96.84%,57.14% 97.91%,50.00% 99.99%,42.86% 96.80%,35.71% 99.26%,28.57% 98.83%,21.43% 99.13%,14.29% 95.41%,7.14% 97.90%,0% 95.35%,1.66% 92.86%,1.12% 85.71%,3.79% 78.57%,3.94% 71.43%,5.88% 64.29%,1.07% 57.14%,5.85% 50.00%,6.15% 42.86%,5.14% 35.71%,1.31% 28.57%,3.88% 21.43%,5.88% 14.29%,0.92% 7.14%)";
 const BACK_TORN_CLIP =
-  "polygon(0% 0.26%,8.33% 1.92%,16.67% 2.60%,25.00% 0.09%,33.33% 2.94%,41.67% 0.04%,50.00% 0.81%,58.33% 0.41%,66.67% 2.68%,75.00% 0.09%,83.33% 0.87%,91.67% 2.95%,100% 1.65%,99.29% 8.33%,99.50% 16.67%,99.60% 25.00%,99.44% 33.33%,98.99% 41.67%,99.97% 50.00%,96.69% 58.33%,99.52% 66.67%,99.60% 75.00%,99.35% 83.33%,96.62% 91.67%,97.12% 100%,91.67% 97.61%,83.33% 99.89%,75.00% 96.72%,66.67% 97.04%,58.33% 99.34%,50.00% 99.87%,41.67% 99.52%,33.33% 99.32%,25.00% 99.28%,16.67% 99.73%,8.33% 99.85%,0% 98.02%,3.38% 91.67%,0.11% 83.33%,0.32% 75.00%,0.80% 66.67%,2.63% 58.33%,2.54% 50.00%,0.38% 41.67%,0.70% 33.33%,0.28% 25.00%,0.98% 16.67%,0.79% 8.33%)";
+  "polygon(0% 0.00%,7.14% 0.00%,14.29% 0.00%,21.43% 0.00%,28.57% 0.00%,35.71% 0.00%,42.86% 0.00%,50.00% 0.00%,57.14% 0.00%,64.29% 0.00%,71.43% 0.00%,78.57% 0.00%,85.71% 0.00%,92.86% 0.00%,100% 0.00%,98.55% 7.14%,95.43% 14.29%,99.18% 21.43%,95.28% 28.57%,97.94% 35.71%,99.94% 42.86%,94.47% 50.00%,99.02% 57.14%,99.19% 64.29%,95.01% 71.43%,94.38% 78.57%,98.61% 85.71%,94.43% 92.86%,95.30% 100%,92.86% 95.72%,85.71% 99.77%,78.57% 94.51%,71.43% 94.94%,64.29% 98.66%,57.14% 96.53%,50.00% 99.03%,42.86% 98.61%,35.71% 98.54%,28.57% 96.12%,21.43% 99.70%,14.29% 99.70%,7.14% 99.15%,0% 96.78%,5.63% 92.86%,0.22% 85.71%,0.65% 78.57%,5.43% 71.43%,4.61% 64.29%,4.49% 57.14%,0.78% 50.00%,1.42% 42.86%,0.56% 35.71%,2.00% 28.57%,1.61% 21.43%,0.39% 14.29%,1.59% 7.14%)";
 
-const PARCHMENT_BG =
-  "radial-gradient(circle at 75% 80%, rgba(120,80,40,0.16), transparent 45%), radial-gradient(circle at 15% 88%, rgba(120,80,40,0.12), transparent 40%), radial-gradient(circle at 42% 28%, #f2e2b8 0%, #e7d09e 42%, #d3b47f 75%, #b8925c 100%)";
+// Base parchment color + two age stains + a vertical and a horizontal fold
+// crease, darkest layer last (CSS paints background-image layers in the
+// order listed, first on top).
+const PARCHMENT_BG = [
+  "linear-gradient(90deg, transparent calc(50% - 1px), rgba(66,40,16,0.22) 50%, transparent calc(50% + 1px))",
+  "linear-gradient(180deg, transparent calc(58% - 1px), rgba(66,40,16,0.14) 58%, transparent calc(58% + 1px))",
+  "radial-gradient(circle at 78% 78%, rgba(94,58,24,0.28), transparent 42%)",
+  "radial-gradient(circle at 12% 90%, rgba(94,58,24,0.2), transparent 38%)",
+  "radial-gradient(circle at 88% 14%, rgba(94,58,24,0.18), transparent 35%)",
+  "radial-gradient(circle at 42% 26%, #e9cf9c 0%, #d8b47e 40%, #bd8f57 74%, #8f6337 100%)",
+].join(", ");
+
+// A dark, singed-looking ring hugging the inside of the torn boundary —
+// box-shadow gets clipped along with everything else, so this reads as a
+// burnt edge rather than a clean vignette.
+const BURNT_EDGE_SHADOW =
+  "inset 0 0 2px 1px rgba(43,25,10,0.55), inset 0 0 40px 16px rgba(50,28,10,0.5)";
+
+// A short horizontal cylinder standing in for the rolled-up top of the
+// scroll: a vertical gradient with alternating light/dark bands to fake the
+// curvature, capped with rounded ends that overhang the sheet below it.
+const ROLL_GRADIENT =
+  "linear-gradient(180deg, #2c1a0c 0%, #7a5230 14%, #d9b784 32%, #9c6f42 48%, #6b4526 62%, #c9a06a 78%, #3d2612 92%, #241407 100%)";
 
 // Kept out of the initial render on purpose: the full letter only exists
 // inside the modal, so a guest who never clicks "Read his letter" never
@@ -96,12 +118,20 @@ export default function GroomLetter() {
           className="fixed inset-0 z-50 flex items-center justify-center bg-[#140d06]/80 px-4 py-10 backdrop-blur-sm"
           onClick={() => setOpen(false)}
         >
-          <div className="relative w-full max-w-lg" style={{ transform: "rotate(-0.6deg)" }}>
+          <div className="relative w-full max-w-lg pt-6" style={{ transform: "rotate(-0.6deg)" }}>
+            {/* the rolled-up top of the scroll: a squat cylinder overhanging
+                the torn sheet on either side */}
+            <div
+              aria-hidden="true"
+              className="absolute -left-3 -right-3 top-0 h-9 rounded-full shadow-[0_8px_16px_rgba(20,13,6,0.45)]"
+              style={{ background: ROLL_GRADIENT }}
+            />
+
             {/* a second torn scrap peeking out from behind, like this page
                 was pulled from a larger sheet */}
             <div
               aria-hidden="true"
-              className="absolute inset-0 -z-10 bg-[#9c774c]"
+              className="absolute inset-x-0 bottom-0 top-6 -z-10 bg-[#7a5230]"
               style={{ clipPath: BACK_TORN_CLIP, transform: "translate(10px,14px) rotate(1.1deg)" }}
             />
             <div
@@ -113,6 +143,7 @@ export default function GroomLetter() {
               style={{
                 clipPath: FRONT_TORN_CLIP,
                 background: PARCHMENT_BG,
+                boxShadow: BURNT_EDGE_SHADOW,
                 filter: "drop-shadow(0 22px 45px rgba(20,13,6,0.5))",
               }}
             >
