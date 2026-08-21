@@ -34,14 +34,29 @@ const NOTES: Note[] = [
 export default function OurStory() {
   return (
     <section id="story" className="bg-cream px-6 py-14 md:px-12 md:py-28">
-      <Reveal direction="up" className="mx-auto max-w-2xl text-center">
+      <Reveal direction="up" className="mx-auto max-w-3xl">
+        <div className="border-t border-line" />
+        <div className="eyebrow flex items-baseline justify-between py-3">
+          <span>Weddings &amp; Celebrations</span>
+          <span>22 August 2026</span>
+        </div>
+        <div className="border-t border-line" />
+      </Reveal>
+
+      <Reveal direction="up" className="mx-auto mt-10 max-w-2xl text-center md:mt-12">
         <p className="eyebrow mb-4">The Beginning</p>
         <h2 className="font-display text-4xl italic leading-tight sm:text-5xl">
           Our Story
         </h2>
-        <p className="mt-3 font-display text-lg italic text-ink/60">
-          How We Met
+        <p className="mx-auto mt-4 max-w-md font-display text-lg italic leading-snug text-ink/60 sm:text-xl">
+          Two timelines, three years apart, that eventually found their way
+          to the same line.
         </p>
+        <div className="mt-6 flex items-center justify-center gap-3 text-xs uppercase tracking-[0.18em] text-ink/40">
+          <span aria-hidden="true" className="h-px w-6 bg-line" />
+          Words by Oghenevize &amp; Olukorede
+          <span aria-hidden="true" className="h-px w-6 bg-line" />
+        </div>
       </Reveal>
 
       <div className="relative mx-auto mt-16 max-w-3xl md:mt-24 md:min-h-[30rem]">
@@ -78,14 +93,17 @@ export default function OurStory() {
         </div>
       </div>
 
-      <Reveal direction="up" className="mx-auto mt-16 max-w-md text-center md:mt-20">
-        <p className="font-display text-xl italic leading-snug text-ink/85 sm:text-2xl">
-          We stayed friends for three years. And somehow, those two
-          timelines eventually met. <span aria-hidden="true">❤️</span>
-        </p>
-      </Reveal>
-
       <GroomLetter />
+
+      <Reveal
+        direction="up"
+        className="mx-auto mt-16 max-w-3xl border-t border-line pt-4 md:mt-20"
+      >
+        <div className="eyebrow flex items-center justify-between">
+          <span>Our Story</span>
+          <span>&mdash; 03 &mdash;</span>
+        </div>
+      </Reveal>
     </section>
   );
 }
