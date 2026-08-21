@@ -95,7 +95,7 @@ const PHOTOS: PhotoItem[] = [
   {
     type: "photo",
     src: brideLeaning,
-    alt: "Oghenevize leaning against her bouquet, veil catching the breeze",
+    alt: "Olukorede leaning against her bouquet, veil catching the breeze",
     aspect: "aspect-[3/4]",
   },
   {
@@ -119,13 +119,13 @@ const PHOTOS: PhotoItem[] = [
   {
     type: "photo",
     src: brideLaugh,
-    alt: "Oghenevize laughing with her bouquet held close",
+    alt: "Olukorede laughing with her bouquet held close",
     aspect: "aspect-[4/5]",
   },
   {
     type: "photo",
     src: groomPortrait,
-    alt: "Olukorede in his cream suit, hands clasped",
+    alt: "Oghenevize in his cream suit, hands clasped",
     aspect: "aspect-[3/4]",
   },
   {
@@ -137,7 +137,7 @@ const PHOTOS: PhotoItem[] = [
   {
     type: "photo",
     src: brideStairs,
-    alt: "Oghenevize seated on a staircase, her veil pooling around her",
+    alt: "Olukorede seated on a staircase, her veil pooling around her",
     aspect: "aspect-[2/3]",
   },
   {
@@ -149,13 +149,13 @@ const PHOTOS: PhotoItem[] = [
   {
     type: "photo",
     src: brideWalk,
-    alt: "Oghenevize glancing back over her shoulder, mid-walk",
+    alt: "Olukorede glancing back over her shoulder, mid-walk",
     aspect: "aspect-[3/4]",
   },
   {
     type: "photo",
     src: groomCandid,
-    alt: "Olukorede in conversation, a candid moment",
+    alt: "Oghenevize in conversation, a candid moment",
     aspect: "aspect-[3/4]",
   },
   {
@@ -167,13 +167,13 @@ const PHOTOS: PhotoItem[] = [
   {
     type: "photo",
     src: brideKneeling,
-    alt: "Oghenevize kneeling on the pavement, bouquet raised beside her face",
+    alt: "Olukorede kneeling on the pavement, bouquet raised beside her face",
     aspect: "aspect-[3/4]",
   },
   {
     type: "photo",
     src: brideBackBW,
-    alt: "Oghenevize glancing back mid-stride, veil trailing behind her, in black and white",
+    alt: "Olukorede glancing back mid-stride, veil trailing behind her, in black and white",
     aspect: "aspect-[2/3]",
   },
 ];

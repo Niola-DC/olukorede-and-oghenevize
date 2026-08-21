@@ -109,7 +109,7 @@ export default function GroomLetter() {
           out.&rdquo;
         </p>
         <p className="eyebrow mt-3">
-          &mdash; Olukorede, to his bride <span aria-hidden="true">❤️</span>
+          &mdash; Oghenevize, to his bride <span aria-hidden="true">❤️</span>
         </p>
       </Reveal>
 
@@ -171,7 +171,7 @@ export default function GroomLetter() {
                 ))}
               </div>
               <p className="mt-7 text-right font-display text-lg italic text-[#4a3520]">
-                &mdash; Olukorede
+                &mdash; Oghenevize
               </p>
             </div>
           </div>

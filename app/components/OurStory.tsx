@@ -50,7 +50,7 @@ export default function OurStory() {
           <div className="relative h-full w-full">
             <Image
               src={moment}
-              alt="Olukorede lifting Oghenevize into a kiss"
+              alt="Oghenevize lifting Olukorede into a kiss"
               fill
               sizes="(min-width: 768px) 24rem, 80vw"
               className="object-cover object-[50%_30%]"
