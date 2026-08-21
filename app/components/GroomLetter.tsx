@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import parchmentTexture from "../assets/images/groom/parchment-texture.jpg";
 import Reveal from "./Reveal";
 
 const PREVIEW =
@@ -23,16 +24,13 @@ const FRONT_TORN_CLIP =
 const BACK_TORN_CLIP =
   "polygon(0% 0.00%,7.14% 0.00%,14.29% 0.00%,21.43% 0.00%,28.57% 0.00%,35.71% 0.00%,42.86% 0.00%,50.00% 0.00%,57.14% 0.00%,64.29% 0.00%,71.43% 0.00%,78.57% 0.00%,85.71% 0.00%,92.86% 0.00%,100% 0.00%,98.55% 7.14%,95.43% 14.29%,99.18% 21.43%,95.28% 28.57%,97.94% 35.71%,99.94% 42.86%,94.47% 50.00%,99.02% 57.14%,99.19% 64.29%,95.01% 71.43%,94.38% 78.57%,98.61% 85.71%,94.43% 92.86%,95.30% 100%,92.86% 95.72%,85.71% 99.77%,78.57% 94.51%,71.43% 94.94%,64.29% 98.66%,57.14% 96.53%,50.00% 99.03%,42.86% 98.61%,35.71% 98.54%,28.57% 96.12%,21.43% 99.70%,14.29% 99.70%,7.14% 99.15%,0% 96.78%,5.63% 92.86%,0.22% 85.71%,0.65% 78.57%,5.43% 71.43%,4.61% 64.29%,4.49% 57.14%,0.78% 50.00%,1.42% 42.86%,0.56% 35.71%,2.00% 28.57%,1.61% 21.43%,0.39% 14.29%,1.59% 7.14%)";
 
-// Base parchment color + two age stains + a vertical and a horizontal fold
-// crease, darkest layer last (CSS paints background-image layers in the
-// order listed, first on top).
-const PARCHMENT_BG = [
-  "linear-gradient(90deg, transparent calc(50% - 1px), rgba(66,40,16,0.22) 50%, transparent calc(50% + 1px))",
-  "linear-gradient(180deg, transparent calc(58% - 1px), rgba(66,40,16,0.14) 58%, transparent calc(58% + 1px))",
-  "radial-gradient(circle at 78% 78%, rgba(94,58,24,0.28), transparent 42%)",
-  "radial-gradient(circle at 12% 90%, rgba(94,58,24,0.2), transparent 38%)",
-  "radial-gradient(circle at 88% 14%, rgba(94,58,24,0.18), transparent 35%)",
-  "radial-gradient(circle at 42% 26%, #e9cf9c 0%, #d8b47e 40%, #bd8f57 74%, #8f6337 100%)",
+// Laid over the real parchment photo with mix-blend-mode: multiply — evens
+// out whichever part of the photo gets cropped in and darkens the edges,
+// plus a vertical and a horizontal fold crease.
+const PARCHMENT_TINT = [
+  "linear-gradient(90deg, transparent calc(50% - 1px), rgba(66,40,16,0.35) 50%, transparent calc(50% + 1px))",
+  "linear-gradient(180deg, transparent calc(58% - 1px), rgba(66,40,16,0.22) 58%, transparent calc(58% + 1px))",
+  "radial-gradient(circle at 50% 45%, rgba(233,207,156,0.9) 0%, rgba(216,180,126,0.85) 45%, rgba(143,99,55,0.8) 100%)",
 ].join(", ");
 
 // A dark, singed-looking ring hugging the inside of the torn boundary —
@@ -142,11 +140,28 @@ export default function GroomLetter() {
               className="relative max-h-[85vh] w-full overflow-y-auto px-8 py-12 sm:px-12 sm:py-16"
               style={{
                 clipPath: FRONT_TORN_CLIP,
-                background: PARCHMENT_BG,
                 boxShadow: BURNT_EDGE_SHADOW,
                 filter: "drop-shadow(0 22px 45px rgba(20,13,6,0.5))",
               }}
             >
+              {/* real parchment photo (CC BY 2.0, Caleb Kimbrough — credited
+                  in the footer), a warm multiply tint to even out the crop,
+                  then the fold creases — all behind the letter text */}
+              <div
+                aria-hidden="true"
+                className="pointer-events-none absolute inset-0"
+                style={{
+                  backgroundImage: `url(${parchmentTexture.src})`,
+                  backgroundSize: "cover",
+                  backgroundPosition: "center",
+                }}
+              />
+              <div
+                aria-hidden="true"
+                className="pointer-events-none absolute inset-0"
+                style={{ background: PARCHMENT_TINT, mixBlendMode: "multiply" }}
+              />
+
               <button
                 type="button"
                 onClick={() => setOpen(false)}
@@ -156,10 +171,10 @@ export default function GroomLetter() {
                 &#10005;
               </button>
 
-              <p className="mb-7 text-center text-xs uppercase tracking-[0.28em] text-[#7a5a34]">
+              <p className="relative mb-7 text-center text-xs uppercase tracking-[0.28em] text-[#7a5a34]">
                 A Note From the Groom
               </p>
-              <div className="space-y-4 font-display text-base italic leading-relaxed text-[#4a3520] sm:text-lg">
+              <div className="relative space-y-4 font-display text-base italic leading-relaxed text-[#4a3520] sm:text-lg">
                 <p>My love,</p>
                 {LETTER_PARAGRAPHS.map((paragraph, i) => (
                   <p key={i}>
@@ -170,7 +185,7 @@ export default function GroomLetter() {
                   </p>
                 ))}
               </div>
-              <p className="mt-7 text-right font-display text-lg italic text-[#4a3520]">
+              <p className="relative mt-7 text-right font-display text-lg italic text-[#4a3520]">
                 &mdash; Oghenevize
               </p>
             </div>
