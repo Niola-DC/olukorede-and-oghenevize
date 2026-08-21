@@ -7,6 +7,8 @@ import Reveal from "./Reveal";
 import brideLeaning from "../assets/images/bride/20260820_104714.jpg";
 import brideLaugh from "../assets/images/bride/20260820_104552.jpg";
 import brideWalk from "../assets/images/bride/20260820_104558.jpg";
+import brideKneeling from "../assets/images/bride/20260820_104709.jpg";
+import brideBackBW from "../assets/images/bride/20260820_104541.jpg";
 import brideStairs from "../assets/images/white/IMG-20260820-WA0024.jpg";
 import groomPortrait from "../assets/images/groom/20260820_105006.jpg";
 import groomCandid from "../assets/images/white/20260820_101514.jpg";
@@ -43,7 +45,7 @@ const QUOTES: QuoteItem[] = [
     quote:
       "I’ve never seen two people build a home out of laughter the way they do — you feel it the second you walk in.",
     name: "Desire",
-    relation: "Bridesmaid",
+    relation: " Chief Bridesmaid",
   },
   {
     type: "quote",
@@ -62,8 +64,8 @@ const QUOTES: QuoteItem[] = [
   {
     type: "quote",
     quote:
-      "Watching them plan this wedding, I realized I was watching two people who already know how to be a team.",
-    name: "[Friend’s Name]",
+      "Marriage isn’t about finding a perfect person. It’s about finding someone and deciding you’re perfect for each other. Seeing the two of you together has made me understand that.",
+    name: "Gaddiel Ighodaro",
     relation: "Friend",
   },
   {
@@ -71,13 +73,20 @@ const QUOTES: QuoteItem[] = [
     quote:
       "She makes him softer. He makes her braver. Best combination I’ve ever seen.",
     name: "Mosun",
-    relation: "College Roommate",
+    relation: "Close Friend",
   },
   {
     type: "quote",
     quote:
       "I was privileged to witness part of your journey together, and without a doubt, you deserve every bit of this joy. I’m truly honoured to witness this beautiful chapter of your lives.",
     name: "Divine Chidiebere",
+    relation: "Close Friend",
+  },
+ {
+    type: "quote",
+    quote:
+      "Watching the two of you made me realize that things can actually be done the right way. Thank you for showing admirable self-control, patience, and what genuine, intentional love looks like.",
+    name: "Osaze Ighodaro",
     relation: "Close Friend",
   },
 ];
@@ -154,6 +163,18 @@ const PHOTOS: PhotoItem[] = [
     src: couplePattern,
     alt: "Olukorede and Oghenevize in matching monochrome prints",
     aspect: "aspect-square",
+  },
+  {
+    type: "photo",
+    src: brideKneeling,
+    alt: "Oghenevize kneeling on the pavement, bouquet raised beside her face",
+    aspect: "aspect-[3/4]",
+  },
+  {
+    type: "photo",
+    src: brideBackBW,
+    alt: "Oghenevize glancing back mid-stride, veil trailing behind her, in black and white",
+    aspect: "aspect-[4/3]",
   },
 ];
 
