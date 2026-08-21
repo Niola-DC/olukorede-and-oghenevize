@@ -61,13 +61,13 @@ const QUOTES: QuoteItem[] = [
     name: "Eniola",
     relation: "Bride's Sister",
   },
-  {
-    type: "quote",
-    quote:
-      "Marriage isn’t about finding a perfect person. It’s about finding someone and deciding you’re perfect for each other. Seeing the two of you together has made me understand that.",
-    name: "Gaddiel Ighodaro",
-    relation: "Friend",
-  },
+//   {
+//     type: "quote",
+//     quote:
+//       "Marriage isn’t about finding a perfect person. It’s about finding someone and deciding you’re perfect for each other. Seeing the two of you together has made me understand that.",
+//     name: "Gaddiel Ighodaro",
+//     relation: "Friend",
+//   },
   {
     type: "quote",
     quote:
@@ -78,14 +78,14 @@ const QUOTES: QuoteItem[] = [
   {
     type: "quote",
     quote:
-      "I was privileged to witness part of your journey together, and without a doubt, you deserve every bit of this joy. I’m truly honoured to witness this beautiful chapter of your lives.",
+      "I’ve had the privilege of witnessing part of your journey, and you truly deserve this joy. I’m honoured to witness this beautiful chapter of your lives.",
     name: "Divine Chidiebere",
     relation: "Close Friend",
   },
  {
     type: "quote",
     quote:
-      "Watching the two of you made me realize that things can actually be done the right way. Thank you for showing admirable self-control, patience, and what genuine, intentional love looks like.",
+      "Watching you both reminds me that love can truly be done right. Thank you for showing what patience, self-control, and intentional love look like.",
     name: "Osaze Ighodaro",
     relation: "Close Friend",
   },
