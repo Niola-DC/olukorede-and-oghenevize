@@ -178,12 +178,14 @@ const PHOTOS: PhotoItem[] = [
   },
 ];
 
-// One quote, then two photos, repeated — always ends on a photo.
+// One quote, then two photos, repeated — always ends on a photo. Filters out
+// undefined slots so QUOTES outgrowing PHOTOS (each quote needs two) trims
+// the last quote's photo pairing instead of crashing the page.
 const ITEMS: Item[] = QUOTES.flatMap((quote, i) => [
   quote,
   PHOTOS[i * 2],
   PHOTOS[i * 2 + 1],
-]);
+]).filter((item): item is Item => item !== undefined);
 
 // Matches the .gallery-drawer-content clip-path transition in globals.css —
 // closing waits this long before collapsing the panel.
