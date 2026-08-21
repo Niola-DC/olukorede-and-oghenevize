@@ -122,6 +122,24 @@ body {
   position: relative;
   z-index: 2;
 }
+
+/* "Tap to Play" pulses gently until the guest actually opens the tile —
+   after that it's stopped the once, no need to keep flagging it down. */
+.game-tile-cta {
+  animation: game-tile-cta-pulse 1.8s ease-in-out infinite;
+}
+.game-tile[aria-expanded="true"] .game-tile-cta {
+  animation: none;
+}
+@keyframes game-tile-cta-pulse {
+  0%,
+  100% {
+    opacity: 0.7;
+  }
+  50% {
+    opacity: 1;
+  }
+}
 .game-tile[aria-expanded="true"]::after {
   content: "";
   position: absolute;
@@ -165,6 +183,9 @@ body {
   .game-accordion-panel,
   .game-accordion-content {
     transition: none !important;
+  }
+  .game-tile-cta {
+    animation: none !important;
   }
 }
 
