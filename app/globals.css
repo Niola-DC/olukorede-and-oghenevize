@@ -1,26 +1,231 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --background: #f7f3ec;
+  --foreground: #1c1a17;
+  --color-cream: #f7f3ec;
+  --color-cream-deep: #efe7d8;
+  --color-ink: #1c1a17;
+  --color-ink-soft: #1c1a1799;
+  --color-tan: #c9a876;
+  --color-tan-deep: #a9825a;
+  --color-gold: #b08d2e;
+  --color-line: #1c1a171f;
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+  --color-cream: var(--color-cream);
+  --color-cream-deep: var(--color-cream-deep);
+  --color-ink: var(--color-ink);
+  --color-ink-soft: var(--color-ink-soft);
+  --color-tan: var(--color-tan);
+  --color-tan-deep: var(--color-tan-deep);
+  --color-gold: var(--color-gold);
+  --color-line: var(--color-line);
+  --font-display: var(--font-fraunces);
+  --font-sans: var(--font-inter);
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-sans), Arial, Helvetica, sans-serif;
+}
+
+.eyebrow {
+  font-family: var(--font-sans), Arial, sans-serif;
+  font-size: 0.75rem;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  color: var(--color-tan-deep);
+}
+
+.tabular-nums {
+  font-variant-numeric: tabular-nums;
+}
+
+/* Flip-card mechanics for the memory game — kept as plain CSS rather than
+   Tailwind arbitrary values since the 3D flip needs several coordinated
+   properties (preserve-3d, backface-visibility, two absolutely-stacked
+   faces) that read far more clearly as named classes. */
+.flip-card {
+  position: relative;
+  transform-style: preserve-3d;
+  transition: transform 0.5s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+.flip-card.is-flipped,
+.flip-card.is-matched {
+  transform: rotateY(180deg);
+}
+.flip-card.is-matched {
+  animation: card-settle 0.6s ease 0.35s 1;
+}
+.flip-face {
+  position: absolute;
+  inset: 0;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+}
+.flip-face-front {
+  transform: rotateY(180deg);
+}
+
+@keyframes card-settle {
+  0% {
+    transform: rotateY(180deg) scale(1);
+  }
+  35% {
+    transform: rotateY(180deg) scale(1.08);
+  }
+  100% {
+    transform: rotateY(180deg) scale(1);
+  }
+}
+
+@keyframes confetti-fall {
+  to {
+    transform: translateY(420px) rotate(340deg);
+    opacity: 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .flip-card {
+    transition: none !important;
+    animation: none !important;
+  }
+}
+
+/* Games section: two glass tab tiles, each carrying its own game's image,
+   and the accordion panel each one unsheathes below it. Only one tile is
+   ever active — see GamesSection.tsx for the mutual-exclusion logic. */
+.game-tile-glass {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  background: rgba(239, 231, 216, 0.88);
+  backdrop-filter: blur(6px) saturate(105%);
+  -webkit-backdrop-filter: blur(6px) saturate(105%);
+  transition: background 0.3s ease, backdrop-filter 0.3s ease;
+}
+.game-tile:hover .game-tile-glass {
+  background: rgba(239, 231, 216, 0.76);
+}
+.game-tile[aria-expanded="true"] .game-tile-glass {
+  background: rgba(255, 255, 255, 0.5);
+  backdrop-filter: blur(10px) saturate(140%);
+  -webkit-backdrop-filter: blur(10px) saturate(140%);
+}
+.game-tile-content {
+  position: relative;
+  z-index: 2;
+}
+.game-tile[aria-expanded="true"]::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  bottom: -1px;
+  transform: translateX(-50%);
+  width: 34px;
+  height: 3px;
+  background: var(--color-gold);
+  z-index: 3;
+}
+
+/* the "unsheathe": a 0fr -> 1fr grid-rows animation, so each panel is
+   pushed open smoothly with no JS height measurement */
+.game-accordion-panel {
+  display: grid;
+  grid-template-rows: 0fr;
+  border-left: 1px solid var(--color-ink);
+  border-right: 1px solid var(--color-ink);
+  transition: grid-template-rows 0.55s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+.game-accordion-panel[data-open="true"] {
+  grid-template-rows: 1fr;
+  border-bottom: 1px solid var(--color-ink);
+}
+.game-accordion-inner {
+  overflow: hidden;
+}
+.game-accordion-content {
+  opacity: 0;
+  transform: translateY(-6px);
+  transition: opacity 0.35s ease 0.12s, transform 0.35s ease 0.12s;
+}
+.game-accordion-panel[data-open="true"] .game-accordion-content {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .game-tile-glass,
+  .game-accordion-panel,
+  .game-accordion-content {
+    transition: none !important;
+  }
+}
+
+/* Gallery's closing "drawer": the photo/quote masonry sits in a panel that
+   collapses via the same 0fr -> 1fr grid-rows trick as the games accordion,
+   toggled by the drawer handle beneath it rather than by hover/tab state.
+   The transition is scoped to the *opening* direction only ([data-open="true"]):
+   animating the collapse both ways means closing shrinks the panel's height
+   over 0.6s, which reflows everything below it upward for that whole
+   duration — visually identical to the page smooth-scrolling into the next
+   section, even though nothing ever calls scrollIntoView. Closing instead
+   snaps shut instantly — but only *after* the content below has already
+   faded out on its own (data-shown, set from JS a beat before data-open),
+   so the panel doesn't just vanish with no warning; it fades, then folds. */
+.gallery-drawer-panel {
+  display: grid;
+  grid-template-rows: 1fr;
+}
+.gallery-drawer-panel[data-open="true"] {
+  transition: grid-template-rows 0.6s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+.gallery-drawer-panel[data-open="false"] {
+  grid-template-rows: 0fr;
+}
+.gallery-drawer-inner {
+  overflow: hidden;
+}
+/* The drawer's own front slides shut over its contents: the clip boundary
+   sweeps down from the top, covering the photos from the top edge downward
+   until it meets the button below — a slide, not a fade. */
+.gallery-drawer-content {
+  transition: clip-path 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  clip-path: inset(0 0 0 0);
+}
+.gallery-drawer-content[data-shown="false"] {
+  clip-path: inset(100% 0 0 0);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .gallery-drawer-panel,
+  .gallery-drawer-content {
+    transition: none !important;
+  }
+}
+
+/* The hand-drawn "click me" arrow pointing at the dev credit link. */
+@keyframes credit-arrow-nudge {
+  0%,
+  100% {
+    transform: translate(0, 0);
+  }
+  50% {
+    transform: translate(2px, -3px);
+  }
+}
+.credit-arrow {
+  animation: credit-arrow-nudge 1.8s ease-in-out infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .credit-arrow {
+    animation: none !important;
+  }
 }
