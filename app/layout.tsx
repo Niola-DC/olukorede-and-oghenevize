@@ -27,7 +27,10 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       lang="en"
       className={`${fraunces.variable} ${inter.variable} h-full antialiased`}
     >
-      <body className="min-h-full flex flex-col bg-cream text-ink">
+      <body
+        className="min-h-full flex flex-col bg-cream text-ink"
+        suppressHydrationWarning
+      >
         {children}
         <Analytics />
       </body>
