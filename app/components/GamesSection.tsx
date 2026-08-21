@@ -31,6 +31,9 @@ export default function GamesSection() {
           <Drum aria-hidden="true" className="h-7 w-7 shrink-0 text-tan-deep sm:h-8 sm:w-8" />
           Can you keep up with the rhythm?
         </p>
+        <p className="mt-3 text-xs uppercase tracking-[0.2em] text-tan-deep">
+          Tap a card below to play
+        </p>
       </Reveal>
 
       <div className="mx-auto mt-12 max-w-4xl">
@@ -53,11 +56,13 @@ export default function GamesSection() {
               />
               <span aria-hidden="true" className="game-tile-glass" />
               <span className="game-tile-content">
-                <span className="eyebrow mb-1 block text-tan-deep">01</span>
+                <span className="game-tile-cta eyebrow mb-1 block text-tan-deep">
+                  Tap to Play
+                </span>
                 <span className="block font-display text-lg italic leading-tight [text-shadow:0_1px_12px_rgba(255,255,255,0.6)] sm:text-2xl">
                   Toss the Bouquet
                 </span>
-                <span className="mt-1 hidden text-sm text-ink/70 sm:block">
+                <span className="mt-1 block text-sm text-ink/70">
                   Tap a spot, then watch it fly
                 </span>
               </span>
@@ -82,11 +87,13 @@ export default function GamesSection() {
               />
               <span aria-hidden="true" className="game-tile-glass" />
               <span className="game-tile-content">
-                <span className="eyebrow mb-1 block text-tan-deep">02</span>
+                <span className="game-tile-cta eyebrow mb-1 block text-tan-deep">
+                  Tap to Play
+                </span>
                 <span className="block font-display text-lg italic leading-tight [text-shadow:0_1px_12px_rgba(255,255,255,0.6)] sm:text-2xl">
                   Find the Match
                 </span>
-                <span className="mt-1 hidden text-sm text-ink/70 sm:block">
+                <span className="mt-1 block text-sm text-ink/70">
                   Flip two cards, find every pair
                 </span>
               </span>
