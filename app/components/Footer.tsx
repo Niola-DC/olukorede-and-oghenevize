@@ -20,20 +20,9 @@ export default function Footer() {
         <div className="mx-auto mt-10 h-px w-16 bg-line" />
 
         <p className="mt-10 font-display text-2xl italic">Olukorede &amp; Oghenevize</p>
-        <p className="eyebrow mt-3">22 . 08 . 2026</p>
+        <p className="eyebrow mt-3 mb-8">22 . 08 . 2026</p>
 
-        <p className="mt-3 text-[10px] uppercase tracking-[0.16em] text-ink/30">
-          Parchment texture by{" "}
-          <a
-            href="https://www.flickr.com/photos/calebkimbrough/4691644631"
-            className="underline underline-offset-2 hover:text-ink/60"
-          >
-            Caleb Kimbrough
-          </a>
-          , CC BY 2.0
-        </p>
-
-        <p className="mt-12 text-[11px] uppercase tracking-[0.18em] text-ink/40">
+        <p className="mt-20 text-[11px] uppercase tracking-[0.18em] text-ink/40">
           Designed &amp; built by{" "}
           <span className="relative inline-block">
             <a
