@@ -52,7 +52,7 @@ export default function BouquetToss() {
       return;
     }
     const court = courtRef.current;
-    const bouquetEl = bouquetRef.current;
+    const bouquetEl = bouquetRef.current as HTMLDivElement;
     if (!court || !bouquetEl) return;
 
     const candidates = Array.from(claimed);
