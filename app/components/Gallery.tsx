@@ -174,7 +174,7 @@ const PHOTOS: PhotoItem[] = [
     type: "photo",
     src: brideBackBW,
     alt: "Oghenevize glancing back mid-stride, veil trailing behind her, in black and white",
-    aspect: "aspect-[4/3]",
+    aspect: "aspect-[2/3]",
   },
 ];
 
@@ -262,7 +262,7 @@ export default function Gallery() {
   }, [expanded]);
 
   return (
-    <section id="gallery" className="bg-cream px-4 py-20 md:px-12 md:py-28">
+    <section id="gallery" className="bg-cream px-4 py-14 md:px-12 md:py-28">
       <Reveal direction="up" className="mx-auto max-w-2xl text-center">
         <p className="eyebrow mb-4">In Frame</p>
         <h2 className="font-display text-4xl italic leading-tight sm:text-5xl">
