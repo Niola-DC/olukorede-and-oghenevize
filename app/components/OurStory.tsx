@@ -32,7 +32,7 @@ const NOTES: Note[] = [
 
 export default function OurStory() {
   return (
-    <section id="story" className="bg-cream px-6 py-20 md:px-12 md:py-28">
+    <section id="story" className="bg-cream px-6 py-14 md:px-12 md:py-28">
       <Reveal direction="up" className="mx-auto max-w-2xl text-center">
         <p className="eyebrow mb-4">The Beginning</p>
         <h2 className="font-display text-4xl italic leading-tight sm:text-5xl">
