@@ -1,5 +1,6 @@
 import Image from "next/image";
 import moment from "../assets/images/white/20260820_110133.jpg";
+import GroomLetter from "./GroomLetter";
 import Reveal from "./Reveal";
 
 type Note = {
@@ -83,6 +84,8 @@ export default function OurStory() {
           timelines eventually met. <span aria-hidden="true">❤️</span>
         </p>
       </Reveal>
+
+      <GroomLetter />
     </section>
   );
 }
