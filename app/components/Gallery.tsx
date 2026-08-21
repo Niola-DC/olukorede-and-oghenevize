@@ -71,7 +71,7 @@ const QUOTES: QuoteItem[] = [
   {
     type: "quote",
     quote:
-      "She makes him softer. He makes her braver. Best combination I’ve ever seen.",
+      "Olu has always been a beautiful soul and I’m genuinely happy I get to witness this chapter of her life with someone who loves and cares for her.",
     name: "Mosun",
     relation: "Close Friend",
   },
