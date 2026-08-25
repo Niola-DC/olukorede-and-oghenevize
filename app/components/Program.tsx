@@ -4,10 +4,7 @@ import { useEffect, useRef } from "react";
 
 type ProgramEvent = { start: string; end: string; title: string; subtitle?: string };
 
-// Hosted on Cloudinary rather than bundled in the repo (it's an 83MB 4K
-// clip). The source file is HEVC-encoded, which Chrome/Firefox can't play
-// in a <video> tag on most platforms — f_auto,vc_auto has Cloudinary
-// transcode to whatever codec the requesting browser actually supports.
+
 const BACKGROUND_VIDEO_URL =
   "https://res.cloudinary.com/r1hwlwtb/video/upload/f_auto,vc_auto/no_parking.mp4";
 
