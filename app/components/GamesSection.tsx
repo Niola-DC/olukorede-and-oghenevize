@@ -1,20 +1,34 @@
 "use client";
 
 import Image from "next/image";
+import dynamic from "next/dynamic";
 import { useState } from "react";
 import bouquetImg from "../assets/images/game/bouquet-token.png";
 import ringImg from "../assets/images/game/ring.png";
-import BouquetToss from "./BouquetToss";
-import MemoryGame from "./MemoryGame";
 import Reveal from "./Reveal";
 import { Drum } from "lucide-react";
+
+// Both games are sizeable client bundles (Web Audio, confetti, their own
+// image sets) sitting behind a closed accordion, so they're split out and
+// only fetched the first time a guest opens that tile — then kept mounted
+// so the open/close animation still has something to reveal.
+const gameLoading = () => (
+  <div className="px-5 py-14 text-center text-sm italic text-ink/50">Loading&hellip;</div>
+);
+const BouquetToss = dynamic(() => import("./BouquetToss"), { ssr: false, loading: gameLoading });
+const MemoryGame = dynamic(() => import("./MemoryGame"), { ssr: false, loading: gameLoading });
 
 type GameKey = "toss" | "match";
 
 export default function GamesSection() {
   const [active, setActive] = useState<GameKey | null>(null);
+  const [mounted, setMounted] = useState<Record<GameKey, boolean>>({
+    toss: false,
+    match: false,
+  });
 
   function toggle(key: GameKey) {
+    setMounted((prev) => (prev[key] ? prev : { ...prev, [key]: true }));
     setActive((prev) => (prev === key ? null : key));
   }
 
@@ -104,7 +118,7 @@ export default function GamesSection() {
         <div id="panel-toss" className="game-accordion-panel" data-open={active === "toss"}>
           <div className="game-accordion-inner">
             <div className="game-accordion-content">
-              <BouquetToss />
+              {mounted.toss && <BouquetToss />}
             </div>
           </div>
         </div>
@@ -112,7 +126,7 @@ export default function GamesSection() {
         <div id="panel-match" className="game-accordion-panel" data-open={active === "match"}>
           <div className="game-accordion-inner">
             <div className="game-accordion-content">
-              <MemoryGame active={active === "match"} />
+              {mounted.match && <MemoryGame active={active === "match"} />}
             </div>
           </div>
         </div>
