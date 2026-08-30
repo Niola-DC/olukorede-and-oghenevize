@@ -465,15 +465,18 @@ export default function Program() {
     const reduceMotion =
       typeof window !== "undefined" && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
-    // One-time entrance: the root draws itself in from the seed down to the
-    // base before the live countdown-driven coloring below takes over, same
-    // structure and pacing as the "Root Bloom Prototype" concept, just
-    // re-timed to this trunk's actual length and event count instead of a
-    // fixed six-segment demo. Skipped entirely under reduced motion, same as
-    // every other animation on this site.
+    // One-time entrance, triggered by scroll rather than mount: the root
+    // holds at a bare seed until the illustration scrolls into view
+    // (`introStarted`), then draws itself in from the seed down to the base
+    // over a deliberate five seconds before the live countdown-driven
+    // coloring below takes over. Same structure as the "Root Bloom
+    // Prototype" concept, re-timed to this trunk's real length and event
+    // count. Skipped entirely under reduced motion, same as every other
+    // animation on this site.
+    let introStarted = reduceMotion;
     let introDone = reduceMotion;
-    const introStart = performance.now();
-    const introDurationMs = 1800 + n * 70;
+    let introStart = 0;
+    const introDurationMs = 5000; // trunk grow-in: five seconds, never less
     const branchSpanFrac = 500 / introDurationMs;
     const bloomSpanFrac = 400 / introDurationMs;
     const totalIntroMs = introDurationMs + 1200;
@@ -492,10 +495,16 @@ export default function Program() {
       let growth = 1;
       let rawT = 1;
       if (!introDone) {
-        const elapsed = performance.now() - introStart;
-        rawT = elapsed / introDurationMs;
-        growth = Math.max(0, Math.min(1, rawT));
-        if (elapsed >= totalIntroMs) introDone = true;
+        if (!introStarted) {
+          // not scrolled into view yet — hold everything at the seed
+          growth = 0;
+          rawT = 0;
+        } else {
+          const elapsed = performance.now() - introStart;
+          rawT = elapsed / introDurationMs;
+          growth = Math.max(0, Math.min(1, rawT));
+          if (elapsed >= totalIntroMs) introDone = true;
+        }
       }
       const branchGrowT = branches.map((b) =>
         introDone ? 1 : Math.max(0, Math.min(1, (rawT - b.t) / branchSpanFrac))
@@ -598,7 +607,8 @@ export default function Program() {
       });
 
       const seedPt = trunkPointAt(0);
-      const sproutScale = introDone ? 1 : easeOutBack(Math.min(1, rawT / 0.1));
+      const sproutScale =
+        introDone || !introStarted ? 1 : easeOutBack(Math.min(1, rawT / 0.1));
       drawSprout(seedPt.x, seedPt.y - 14 * sproutScale);
 
       if (progress > 0 && (introDone || growth >= progress)) {
@@ -635,22 +645,73 @@ export default function Program() {
 
     draw();
 
+    // Hold the entrance sweep until the guest actually scrolls the root
+    // illustration into view, then start its five-second grow-in. Fires
+    // once; under reduced motion it's already done and never waits.
+    // The canvas redraw is expensive — hundreds of strokes per frame — so
+    // it must not spin while the guest is elsewhere on the page or on
+    // another tab. `onScreen` (a visibility observer) and `visibilitychange`
+    // gate it; parked, it stops entirely and simply repaints on the next
+    // frame once the section comes back.
     let raf = 0;
-    let interval: ReturnType<typeof setInterval> | undefined;
-    if (reduceMotion) {
-      interval = setInterval(draw, 1000);
-    } else {
-      const tick = () => {
-        pulsePhase += 0.045;
-        draw();
-        raf = requestAnimationFrame(tick);
-      };
-      raf = requestAnimationFrame(tick);
+    let slowTimer: ReturnType<typeof setInterval> | undefined;
+    let onScreen = false;
+
+    const frame = () => {
+      pulsePhase += 0.045;
+      draw();
+      raf = requestAnimationFrame(frame);
+    };
+    const stop = () => {
+      if (raf) cancelAnimationFrame(raf);
+      raf = 0;
+      if (slowTimer) clearInterval(slowTimer);
+      slowTimer = undefined;
+    };
+    const sync = () => {
+      if (!onScreen || document.hidden) return stop();
+      if (reduceMotion) {
+        if (!slowTimer) slowTimer = setInterval(draw, 1000);
+      } else if (!raf) {
+        raf = requestAnimationFrame(frame);
+      }
+    };
+
+    // Hold the entrance sweep until the root itself scrolls into view, then
+    // start its five-second grow-in. Fires once.
+    let introIO: IntersectionObserver | undefined;
+    if (!reduceMotion) {
+      introIO = new IntersectionObserver(
+        (entries) => {
+          if (!introStarted && entries.some((e) => e.isIntersecting)) {
+            introStarted = true;
+            introStart = performance.now();
+            introIO?.disconnect();
+            introIO = undefined;
+            sync();
+          }
+        },
+        { threshold: 0, rootMargin: "0px 0px -10% 0px" }
+      );
+      introIO.observe(stage);
     }
 
+    const visIO = new IntersectionObserver(
+      ([entry]) => {
+        onScreen = entry.isIntersecting;
+        sync();
+      },
+      { rootMargin: "300px 0px" }
+    );
+    visIO.observe(sectionRef.current ?? stage);
+    document.addEventListener("visibilitychange", sync);
+    sync();
+
     return () => {
-      if (raf) cancelAnimationFrame(raf);
-      if (interval) clearInterval(interval);
+      stop();
+      introIO?.disconnect();
+      visIO.disconnect();
+      document.removeEventListener("visibilitychange", sync);
       stage.querySelectorAll(".root-label").forEach((el) => el.remove());
     };
   }, []);
